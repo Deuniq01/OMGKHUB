@@ -192,9 +192,9 @@
       <h3 style="font-family:var(--serif); font-size:24px; margin-top:6px;">Request a Callback</h3>
       <p style="font-size:14px; color:var(--text-dim); margin-top:4px;">Leave your name and phone number. Our team in Ibadan will call you back promptly.</p>
     </div>
-    <form action="https://formsubmit.co/omgkhubng@gmail.com" method="POST">
-      <input type="hidden" name="_subject" value="New Callback Request from OMGKHUB Website">
-      <input type="hidden" name="_template" value="table">
+    <form name="callback" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="callback">
+      <p class="honey" style="display:none;"><label>Don't fill this out if you're human: <input name="bot-field" /></label></p>
       <div class="field">
         <label for="cb-name">Your Name</label>
         <input type="text" id="cb-name" name="name" placeholder="e.g. Adebayo Johnson" required>
@@ -230,9 +230,9 @@
       <h3 style="font-family:var(--serif); font-size:24px; margin-top:6px;">Service Request Form</h3>
       <p style="font-size:14px; color:var(--text-dim); margin-top:4px;">Specify your requirements and get a custom quote within hours.</p>
     </div>
-    <form action="https://formsubmit.co/omgkhubng@gmail.com" method="POST">
-      <input type="hidden" name="_subject" value="New Service Request from OMGKHUB Website">
-      <input type="hidden" name="_template" value="table">
+    <form name="service-request-modal" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="service-request-modal">
+      <p class="honey" style="display:none;"><label>Don't fill this out if you're human: <input name="bot-field" /></label></p>
       <div class="form-row">
         <div class="field">
           <label for="sr-name">Full Name</label>

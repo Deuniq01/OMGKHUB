@@ -649,9 +649,9 @@ function buildServices() {
           <p style="color:var(--text-dim); font-size:15px; margin-top:6px;">Fill out this form and our team will contact you back immediately with pricing and timeline details.</p>
         </div>
 
-        <form action="https://formsubmit.co/${EMAIL}" method="POST">
-          <input type="hidden" name="_subject" value="New Service Request from OMGKHUB Services Page">
-          <input type="hidden" name="_template" value="table">
+        <form name="service-request" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="service-request">
+          <p class="honey" style="display:none;"><label>Don't fill this out if you're human: <input name="bot-field" /></label></p>
           
           <div class="form-row">
             <div class="field">
@@ -1082,9 +1082,9 @@ function buildContact() {
             <p style="font-size:14px; color:var(--text-dim); margin-top:4px;">Land directly in our inbox at ${EMAIL}.</p>
           </div>
 
-          <form action="https://formsubmit.co/${EMAIL}" method="POST">
-            <input type="hidden" name="_subject" value="New message from OMGKHUB Contact Page">
-            <input type="hidden" name="_template" value="table">
+          <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="contact">
+            <p class="honey" style="display:none;"><label>Don't fill this out if you're human: <input name="bot-field" /></label></p>
 
             <div class="field">
               <label for="c-name">Your Name</label>
@@ -1118,9 +1118,9 @@ function buildContact() {
             <p style="font-size:14px; color:var(--text-dim); margin-top:4px;">Separate from general inquiry — book or order specific service lines.</p>
           </div>
 
-          <form action="https://formsubmit.co/${EMAIL}" method="POST">
-            <input type="hidden" name="_subject" value="New Service Booking from OMGKHUB Contact Page">
-            <input type="hidden" name="_template" value="table">
+          <form name="service-booking" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="service-booking">
+            <p class="honey" style="display:none;"><label>Don't fill this out if you're human: <input name="bot-field" /></label></p>
 
             <div class="field">
               <label for="sr2-name">Your Name</label>
