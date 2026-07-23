@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const ROOT_DIR = __dirname;
+const ROOT_DIR = path.join(__dirname, '..');
 const {
   headPartial,
   headerPartial,
