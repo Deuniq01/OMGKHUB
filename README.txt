@@ -27,13 +27,13 @@ address, no backend or account required.
 
 IMPORTANT — ONE-TIME ACTIVATION STEP:
 The very first time anyone submits the form, FormSubmit sends a
-confirmation email to omgkhub@gmail.com. Someone needs to open that
+confirmation email to omgkhubng@gmail.com. Someone needs to open that
 email and click the confirmation link. After that, every future
 submission is delivered straight to the inbox automatically.
 
 If you ever want to change the destination email, open contact.html
 and edit this line:
-    <form action="https://formsubmit.co/omgkhub@gmail.com" method="POST">
+    <form action="https://formsubmit.co/omgkhubng@gmail.com" method="POST">
 
 ADDING YOUR OWN PHOTOS
 -------------------------
@@ -68,5 +68,5 @@ with the real profile URL, then remove the "pending" class.
 CONTACT DETAILS ON FILE
 --------------------------
 Phone:    +234 805 777 7884
-Email:    omgkhub@gmail.com
+Email:    omgkhubng@gmail.com
 Location: Moniya, Ibadan, Nigeria

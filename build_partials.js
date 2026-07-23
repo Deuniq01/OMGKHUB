@@ -1,25 +1,36 @@
-<!doctype html>
+const fs = require('fs');
+const path = require('path');
+
+const ROOT_DIR = __dirname;
+const EMAIL = 'omgkhubng@gmail.com';
+const PHONE = '+234 805 777 7884';
+const WHATSAPP = 'https://wa.me/2348057777884';
+const MAPS_URL = 'https://maps.google.com/?q=Moniya,+Ibadan,+Nigeria';
+const SITE_URL = 'https://www.omgkhub.com';
+
+function headPartial({ title, description, canonicalPath = 'index.html' }) {
+  return `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Work & Portfolio | OMGKHUB Branding & Production Showcase</title>
-<meta name="description" content="View recent projects delivered by OMGKHUB: Corporate Branding, PVC ID Cards, Printed Collateral, CAC Registrations, and Digital Media in Ibadan.">
+<title>${title}</title>
+<meta name="description" content="${description}">
 <meta name="keywords" content="OMGKHUB, Orange Multimedia Global Konsult, corporate branding Ibadan, ID card printing Nigeria, CAC registration Ibadan, event management Ibadan, hotel management Ibadan, OMGKHUB Direct delivery">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://www.omgkhub.com/work.html">
+<link rel="canonical" href="${SITE_URL}/${canonicalPath}">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OMGKHUB">
-<meta property="og:title" content="Work & Portfolio | OMGKHUB Branding & Production Showcase">
-<meta property="og:description" content="View recent projects delivered by OMGKHUB: Corporate Branding, PVC ID Cards, Printed Collateral, CAC Registrations, and Digital Media in Ibadan.">
+<meta property="og:title" content="${title}">
+<meta property="og:description" content="${description}">
 <meta property="og:image" content="/images/og-cover.jpg">
-<meta property="og:url" content="https://www.omgkhub.com/work.html">
+<meta property="og:url" content="${SITE_URL}/${canonicalPath}">
 <meta property="og:locale" content="en_NG">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Work & Portfolio | OMGKHUB Branding & Production Showcase">
-<meta name="twitter:description" content="View recent projects delivered by OMGKHUB: Corporate Branding, PVC ID Cards, Printed Collateral, CAC Registrations, and Digital Media in Ibadan.">
+<meta name="twitter:title" content="${title}">
+<meta name="twitter:description" content="${description}">
 <meta name="twitter:image" content="/images/og-cover.jpg">
 
 <!-- Strictly Favicon Only -->
@@ -32,9 +43,9 @@
   "@type": "ProfessionalService",
   "name": "Orange Multimedia Global Konsult (OMGKHUB)",
   "alternateName": "OMGKHUB",
-  "description": "View recent projects delivered by OMGKHUB: Corporate Branding, PVC ID Cards, Printed Collateral, CAC Registrations, and Digital Media in Ibadan.",
+  "description": "${description}",
   "slogan": "Professional Solutions... Exceptional Results.",
-  "email": "omgkhubng@gmail.com",
+  "email": "${EMAIL}",
   "telephone": "+2348057777884",
   "address": {
     "@type": "PostalAddress",
@@ -57,7 +68,33 @@
 <a href="#main" class="skip-link">Skip to content</a>
 <div class="grain" aria-hidden="true"></div>
 <div class="reticle" id="reticle" aria-hidden="true"></div>
-<header class="nav" id="nav">
+`;
+}
+
+function headerPartial(activeKey = 'home') {
+  const links = [
+    { key: 'about', label: 'About', href: 'about.html' },
+    { key: 'services', label: 'Services', href: 'services.html' },
+    { key: 'process', label: 'Process', href: 'process.html' },
+    { key: 'why-us', label: 'Why Us', href: 'why-us.html' },
+    { key: 'work', label: 'Work', href: 'work.html' },
+    { key: 'contact', label: 'Contact', href: 'contact.html' },
+  ];
+
+  const navLinksHtml = links.map(l => 
+    `<a href="${l.href}" class="${activeKey === l.key ? 'active' : ''}">${l.label}</a>`
+  ).join('\n    ');
+
+  const mobileLinksHtml = [
+    { key: 'home', label: 'Home', href: 'index.html' },
+    ...links
+  ].map(l => {
+    const isAct = activeKey === l.key;
+    const styleAttr = isAct ? 'style="color:var(--orange); font-family:var(--serif); font-size:32px;"' : 'style="font-family:var(--serif); font-size:32px;"';
+    return `<a href="${l.href}" ${styleAttr}>${l.label}</a>`;
+  }).join('\n  ');
+
+  return `<header class="nav" id="nav">
   <a href="index.html" class="brand" aria-label="OMGKHUB, homepage">
     <img class="seal" src="images/omgkhub-logo.png" alt="OMGKHUB logo" width="52" height="29">
     <span>
@@ -67,19 +104,14 @@
   </a>
 
   <nav class="nav-links" aria-label="Primary">
-    <a href="about.html" class="">About</a>
-    <a href="services.html" class="">Services</a>
-    <a href="process.html" class="">Process</a>
-    <a href="why-us.html" class="">Why Us</a>
-    <a href="work.html" class="active">Work</a>
-    <a href="contact.html" class="">Contact</a>
+    ${navLinksHtml}
   </nav>
 
   <div style="display:flex; align-items:center; gap:12px;">
     <button class="btn btn-secondary magnetic" data-magnetic data-open-modal="callbackModal" style="padding:10px 16px; font-size:12px;" aria-label="Request a Callback">
       <span class="btn-label">Callback</span>
     </button>
-    <a href="https://wa.me/2348057777884" class="btn btn-primary magnetic" data-magnetic aria-label="Book now on WhatsApp">
+    <a href="${WHATSAPP}" class="btn btn-primary magnetic" data-magnetic aria-label="Book now on WhatsApp">
       <span class="btn-label">Book Now</span>
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18L18 6M18 6H9M18 6V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
@@ -91,103 +123,17 @@
 </header>
 
 <div id="mobileMenu" class="mobile-menu" style="display:none; position:fixed; inset:0; z-index:600; background:var(--ink); color:var(--text-invert); padding:100px 30px; flex-direction:column; gap:26px;">
-  <a href="index.html" style="font-family:var(--serif); font-size:32px;">Home</a>
-  <a href="about.html" style="font-family:var(--serif); font-size:32px;">About</a>
-  <a href="services.html" style="font-family:var(--serif); font-size:32px;">Services</a>
-  <a href="process.html" style="font-family:var(--serif); font-size:32px;">Process</a>
-  <a href="why-us.html" style="font-family:var(--serif); font-size:32px;">Why Us</a>
-  <a href="work.html" style="color:var(--orange); font-family:var(--serif); font-size:32px;">Work</a>
-  <a href="contact.html" style="font-family:var(--serif); font-size:32px;">Contact</a>
+  ${mobileLinksHtml}
   <div style="margin-top:20px; display:flex; flex-direction:column; gap:12px;">
     <button class="btn btn-secondary" data-open-modal="callbackModal" style="width:100%; text-align:center;">Request Callback</button>
-    <a href="https://wa.me/2348057777884" class="btn btn-primary" style="width:100%; text-align:center;">Book on WhatsApp</a>
+    <a href="${WHATSAPP}" class="btn btn-primary" style="width:100%; text-align:center;">Book on WhatsApp</a>
   </div>
 </div>
-<main id="main">
-  <section class="page-hero">
-    <div class="wrap">
-      <div class="breadcrumb">
-        <a href="index.html">Home</a> <span>/</span> <span>Work</span>
-      </div>
-      <h1>Featured <em>portfolio &amp; projects.</em></h1>
-      <p class="page-sub">A showcase of design, printing, branding, and technical projects produced at OMGKHUB in Moniya, Ibadan.</p>
-    </div>
-  </section>
+`;
+}
 
-  <section class="sec">
-    <div class="wrap">
-      <div class="work-grid-full reveal">
-
-        <div class="work-item">
-          <div class="work-frame">
-            <img src="images/image1.jpeg" alt="Corporate Branding &amp; Identity Design">
-          </div>
-          <span class="work-tag">01 / Corporate Branding</span>
-        </div>
-
-        <div class="work-item">
-          <div class="work-frame">
-            <img src="images/image2.jpeg" alt="PVC ID Card Production">
-          </div>
-          <span class="work-tag">02 / Plastic PVC ID Cards</span>
-        </div>
-
-        <div class="work-item">
-          <div class="work-frame">
-            <img src="images/image3.jpeg" alt="High-Volume Graphic Printing">
-          </div>
-          <span class="work-tag">03 / Commercial Printing</span>
-        </div>
-
-        <div class="work-item">
-          <div class="work-frame">
-            <img src="images/image1.jpeg" alt="Document Secretariat Services">
-          </div>
-          <span class="work-tag">04 / Secretariat Services</span>
-        </div>
-
-        <div class="work-item">
-          <div class="work-frame">
-            <img src="images/image2.jpeg" alt="CAC Business Registration">
-          </div>
-          <span class="work-tag">05 / CAC Registrations</span>
-        </div>
-
-        <div class="work-item">
-          <div class="work-frame">
-            <img src="images/image3.jpeg" alt="Gadgets &amp; Computer Accessories">
-          </div>
-          <span class="work-tag">06 / Gadgets &amp; Accessories</span>
-        </div>
-
-        <div class="work-item">
-          <div class="work-frame">
-            <img src="images/image1.jpeg" alt="Event &amp; Hotel Management">
-          </div>
-          <span class="work-tag">10 / Event Management</span>
-        </div>
-
-        <div class="work-item">
-          <div class="work-frame">
-            <img src="images/image2.jpeg" alt="OMGKHUB Direct Express Logistics">
-          </div>
-          <span class="work-tag">11 / OMGKHUB Direct Logistics</span>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <section class="sec" style="background:var(--paper-dim); border-top:1px solid var(--line);">
-    <div class="wrap mini-cta">
-      <div>
-        <h3>Have a project similar to these?</h3>
-        <p>Let's discuss your custom specifications and timeline.</p>
-      </div>
-      <a href="contact.html" class="btn btn-primary">Start a Project &rarr;</a>
-    </div>
-  </section>
-</main><footer>
+function footerPartial() {
+  return `<footer>
   <div class="wrap">
     <div class="foot-top">
       <div class="foot-brand">
@@ -235,9 +181,9 @@
         <h4>Contact Info</h4>
         <address style="display:flex; flex-direction:column; gap:10px; font-size:14.5px;">
           <span>Moniya, Ibadan, Nigeria</span>
-          <a href="tel:+2348057777884">+234 805 777 7884</a>
-          <a href="mailto:omgkhubng@gmail.com">omgkhubng@gmail.com</a>
-          <a href="https://maps.google.com/?q=Moniya,+Ibadan,+Nigeria" target="_blank" rel="noopener" style="color:var(--orange)">View on Google Maps &rarr;</a>
+          <a href="tel:+2348057777884">${PHONE}</a>
+          <a href="mailto:${EMAIL}">${EMAIL}</a>
+          <a href="${MAPS_URL}" target="_blank" rel="noopener" style="color:var(--orange)">View on Google Maps &rarr;</a>
         </address>
       </div>
     </div>
@@ -251,7 +197,11 @@
     </div>
   </div>
 </footer>
+`;
+}
 
+function modalsPartial() {
+  return `
 <!-- Callback Request Modal -->
 <div id="callbackModal" class="modal-overlay" aria-hidden="true">
   <div class="modal-backdrop"></div>
@@ -262,7 +212,7 @@
       <h3 style="font-family:var(--serif); font-size:24px; margin-top:6px;">Request a Callback</h3>
       <p style="font-size:14px; color:var(--text-dim); margin-top:4px;">Leave your name and phone number. Our team in Ibadan will call you back promptly.</p>
     </div>
-    <form action="https://formsubmit.co/omgkhubng@gmail.com" method="POST">
+    <form action="https://formsubmit.co/${EMAIL}" method="POST">
       <input type="hidden" name="_subject" value="New Callback Request from OMGKHUB Website">
       <input type="hidden" name="_template" value="table">
       <div class="field">
@@ -300,7 +250,7 @@
       <h3 style="font-family:var(--serif); font-size:24px; margin-top:6px;">Service Request Form</h3>
       <p style="font-size:14px; color:var(--text-dim); margin-top:4px;">Specify your requirements and get a custom quote within hours.</p>
     </div>
-    <form action="https://formsubmit.co/omgkhubng@gmail.com" method="POST">
+    <form action="https://formsubmit.co/${EMAIL}" method="POST">
       <input type="hidden" name="_subject" value="New Service Request from OMGKHUB Website">
       <input type="hidden" name="_template" value="table">
       <div class="form-row">
@@ -341,6 +291,24 @@
     </form>
   </div>
 </div>
-<script src="js/main.js"></script>
+`;
+}
+
+function scriptsPartial() {
+  return `<script src="js/main.js"></script>
 </body>
-</html>
+</html>`;
+}
+
+module.exports = {
+  headPartial,
+  headerPartial,
+  footerPartial,
+  modalsPartial,
+  scriptsPartial,
+  EMAIL,
+  PHONE,
+  WHATSAPP,
+  MAPS_URL,
+  SITE_URL
+};
